@@ -264,6 +264,178 @@ var reverseLinkedList = function(head) {
     return prev;
 }
 
+var reverse = function(prevNode, head, numOfNodesToReverse) {
+    let prev = prevNode, currentNode = head, count = 0;
+    while(currentNode && count < numOfNodesToReverse) {
+        count++;
+        const next = currentNode.next;
+        currentNode.next = prev;
+        prev = currentNode;
+        currentNode = next;
+    }
+    if(prevNode) {
+        prevNode.next = prev;
+    }
+    head.next = currentNode;
+
+    return currentNode;
+}
+
+/**
+ * https://leetcode.com/problems/reverse-linked-list-ii/
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} left
+ * @param {number} right
+ * @return {ListNode}
+ */
+var reverseBetween = function(head, left, right) {
+    var reverse = function(prevNode, head, numOfNodesToReverse) {
+        let prev = prevNode, currentNode = head, count = 0;
+        while(currentNode && count < numOfNodesToReverse) {
+            count++;
+            const next = currentNode.next;
+            currentNode.next = prev;
+            prev = currentNode;
+            currentNode = next;
+        }
+        if(prevNode) {
+            prevNode.next = prev;
+        }
+        head.next = currentNode;
+    
+        return prev;
+    }
+
+    let currentNode = head, prev = null;
+
+    for(let i=1; i < left && currentNode; i++) {
+        prev = currentNode;
+        currentNode = currentNode.next;
+    }
+
+    let res = reverse(prev, currentNode, right-left+1);
+
+    if(left === 1) {
+        return res;
+    } else {
+        return head;
+    }
+};
+
+var flattenChild = function(child) {
+    let currentNode = child, prev = child;
+    while(currentNode) {
+        prev = currentNode;
+        if(!currentNode.child) {
+            currentNode = currentNode.next;
+            continue;
+        }
+        let res = flattenChild(currentNode.child);
+        let next = currentNode.next;
+        currentNode.next = res.head;
+        currentNode.child = null;
+        if(next) { next.prev = res.tail; }
+        res.tail.next = next;
+        res.head.prev = currentNode;
+    }
+
+    return {"head": child, "tail": prev};
+};
+
+/**
+ * https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
+ * // Definition for a Node.
+ * function Node(val,prev,next,child) {
+ *    this.val = val;
+ *    this.prev = prev;
+ *    this.next = next;
+ *    this.child = child;
+ * };
+ */
+var flatten = function(head) {
+    let res = flattenChild(head);
+
+    return res.head;
+};
+
+/*
+NOTE: The beginning portion builds our test case linked list. Scroll down to the section titled Our Solution for the code solution!
+ */
+
+class ListNode {
+    constructor(val, next = null, prev = null, child = null) {
+      this.val = val;
+      this.next = next;
+      this.prev = prev;
+      this.child = child;
+    }
+  }
+  
+  // ---- Generate our linked list ----
+  const nodes = [1, [2, 7, [8, 10, 11], 9], 3, 4, [5, 12, 13], 6]
+  
+  const buildMultiLevel = function(nodes) {
+    const head = new ListNode(nodes[0]);
+    let currentNode = head;
+  
+    for(let i = 1; i < nodes.length; i++) {
+      const val = nodes[i];
+      let nextNode;
+  
+      if(Array.isArray(val)) {
+        nextNode = buildMultiLevel(val);
+        currentNode.child = nextNode;
+        continue;
+      }
+  
+      nextNode = new ListNode(val);
+      currentNode.next = nextNode;
+      nextNode.prev = currentNode;
+      currentNode = nextNode;
+    }
+    
+    return head;
+  }
+  
+  let multiLinkedList = buildMultiLevel(nodes);
+  
+  // ---- Generate our linked list ----
+  
+  const printListMulti = head => {
+    if(!head) {
+      return;
+    }
+  
+    console.log(head.val)
+  
+    if(head.child) {
+      printListMulti(head.child);
+    }
+  
+    printListMulti(head.next);
+  }
+  
+  const printList = head => {
+    if(!head) {
+      return;
+    }
+  
+    console.log(head.val);
+    
+    printList(head.next);
+  }
+
+  printList(multiLinkedList);
+  let flatres = flatten(multiLinkedList);
+  printList(flatres);
+
 const head = {
     "data":1,
     "next":{
@@ -272,10 +444,25 @@ const head = {
             "data":3,
             "next":{
                 "data":4,
-                "next":null,
+                "next":{
+                    "data":5,
+                    "next":null,
+                },
             },
         },
     },
 };
 
-console.log(reverseLinkedList(head));
+const res = reverseBetween(head,4,2);
+
+const head2 = {
+    "data":1,
+    "next":{
+        "data":2,
+        "next": null,
+    },
+};
+
+const res2 = reverseBetween(head2,2,1);
+
+console.log(res);
