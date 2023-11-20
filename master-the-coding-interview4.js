@@ -73,3 +73,33 @@ const dfs = function(currentId, adjList, informTime) {
 // console.log(numOfMinutes(n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]));
 console.log(numOfMinutes(n = 11, headID = 4, manager = [5,9,6,10,-1,8,9,1,9,3,4], informTime = [0,213,0,253,686,170,975,0,261,309,337]));
 console.log(numOfMinute2(n = 11, headID = 4, manager = [5,9,6,10,-1,8,9,1,9,3,4], informTime = [0,213,0,253,686,170,975,0,261,309,337]));
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    if(!nums || nums.length <= 2) return nums.length;
+
+    let lastItem = nums[0],
+    lastItemIndex=0, foundDuplicate = false;
+
+    for(let i=1; i<nums.length;i++){
+      if(nums[i] === lastItem) {
+        if(!foundDuplicate) {
+          lastItemIndex++;
+          foundDuplicate = true;
+        }
+      } else if(nums[i] > lastItem) {
+        lastItem = nums[i];
+        lastItemIndex++;
+        nums[lastItemIndex] = lastItem;
+        foundDuplicate = false;
+      }
+    }
+
+    return lastItemIndex+1;
+};
+
+const t1 = [0,0,1,1,1,2,2,3,3,4], t2 = removeDuplicates(t1);
+console.log(t2);
