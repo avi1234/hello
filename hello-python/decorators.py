@@ -13,7 +13,7 @@ def timed(function):
 @timed
 def myFunc(x):
     result = 1
-    for i in range(1,x):
+    for i in range(1, x):
         result *= i
     return result
 

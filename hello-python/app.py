@@ -97,9 +97,9 @@ print(fruits[2:])
 # dictionary
 
 person = {
-    'name': 'John', 
+    'name': 'John',
     'age': 31,
-    'get_signature': lambda: f"🔆 {person['name']}, {person['age']}"
+    'get_signature': lambda: f"🔆 {person['name']}, {person['age']}",
 }
 
 print(person['get_signature']())
