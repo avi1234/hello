@@ -1,7 +1,11 @@
 import json
 import redis
 
-client = redis.Redis(host="localhost", port=6379, db=0)
+from helpers.config import get_config
+
+redis_config = get_config('redis')
+expiration_in_seconds = redis_config['expiration_in_seconds']
+client = redis.Redis(host=redis_config['host'], port=redis_config['port'], db=redis_config['db'])
 print('ℹ️ redis client initiated')
 
 def get_json(key: str) -> dict:
@@ -14,11 +18,9 @@ def get_json(key: str) -> dict:
 
 def set_json(key: str, val: dict) -> bool:
     print(f'ℹ️ redis dal: {key} is set as json.')
-    expiration_in_seconds = 60
     json_data = json.dumps(val)
     return client.set(key, json_data, ex=expiration_in_seconds)
 
 def set_text(key: str, val: str) -> bool:
     print(f'ℹ️ redis dal: {key} is set as text.')
-    expiration_in_seconds = 60
     return client.set(key, val, ex=expiration_in_seconds)
