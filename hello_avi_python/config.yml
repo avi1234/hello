@@ -1,0 +1,8 @@
+general:
+  app_name: Hi
+
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  expiration_in_seconds: 60

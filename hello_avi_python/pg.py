@@ -1,4 +1,4 @@
-import api_call_dal
+import api_call_dal as api_call_dal
 
 keyword = 'python'
 url = 'https://api.github.com/search/repositories'

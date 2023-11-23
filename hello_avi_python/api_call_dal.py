@@ -1,6 +1,6 @@
 import requests
 
-import redis_dal
+import redis_dal as redis_dal
 
 def http_get_request(key_name: str, url: str, params: dict = {}) -> dict:
     value_from_cache = redis_dal.get_json(key_name)
