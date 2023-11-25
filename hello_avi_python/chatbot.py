@@ -3,7 +3,7 @@ from openai import OpenAI
 conversation_history = []
 
 client = OpenAI(
-    api_key='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',
+    api_key='key',
 )
 
 def chat(input:str) -> str:
