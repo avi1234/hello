@@ -67,6 +67,4 @@ async def get_bucket(id: int):
 @app.post("/buckets")
 async def create_bucket(bucket: Bucket):
     buckets.append(bucket)
-    return {
-        "success": True
-    }
+    return {"success": True}
