@@ -42,7 +42,7 @@ async def root(skip: int = 0, limit: int = 100, q: Union[str, None] = None):
     res = {
         "skip": skip,
         "limit": limit,
-        "data": dal.fetch_buckets(),
+        "data": buckets,  # dal.fetch_buckets(),
     }
 
     if q:
@@ -67,6 +67,4 @@ async def get_bucket(id: int):
 @app.post("/buckets")
 async def create_bucket(bucket: Bucket):
     buckets.append(bucket)
-    return {
-        "success": True
-    }
+    return {"success": True}
