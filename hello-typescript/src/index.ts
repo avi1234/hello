@@ -6,6 +6,7 @@ interface WithAddress {
 }
 
 class House implements WithAddress {
+    public enterance: number | boolean = false
     readonly address: string
     private price: number
     protected _visitors: number = 0
